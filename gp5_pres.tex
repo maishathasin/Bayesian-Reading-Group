@@ -1,0 +1,251 @@
+% compile with XeLaTeX
+\documentclass[dvipsnames,mathserif]{beamer}
+\setbeamertemplate{footline}[frame number]
+\setbeamercolor{footline}{fg=black}
+\setbeamerfont{footline}{series=\bfseries}
+\usepackage{tikz}
+%\usetheme{Frankfurt}%1
+\usetheme{Darmstadt}%1
+% for RTL liste
+\makeatletter
+\newcommand{\RTListe}{\raggedleft\rightskip\leftm}
+\newcommand{\leftm}{\@totalleftmargin}
+\makeatother
+
+% RTL frame title
+\setbeamertemplate{frametitle}
+{\vspace*{-1mm}
+  \nointerlineskip
+    \begin{beamercolorbox}[sep=0.3cm,ht=2.2em,wd=\paperwidth]{frametitle}
+        \vbox{}\vskip-2ex%
+        \strut\hskip1ex\insertframetitle\strut
+        \vskip-0.8ex%
+    \end{beamercolorbox}
+}
+% align subsection in toc
+\makeatletter
+\setbeamertemplate{subsection in toc}
+{\leavevmode\rightskip=5ex%
+  \llap{\raise0.1ex\beamer@usesphere{subsection number projected}{bigsphere}\kern1ex}%
+  \inserttocsubsection\par%
+}
+\makeatother
+
+% RTL triangle for itemize
+\setbeamertemplate{itemize item}{\scriptsize\raise1.25pt\hbox{\donotcoloroutermaths$\blacktriangleleft$}} 
+
+%\setbeamertemplate{itemize item}{\rule{4pt}{4pt}}
+
+\defbeamertemplate{enumerate item}{square2}
+{\LR{
+    %
+    \hbox{%
+    \usebeamerfont*{item projected}%
+    \usebeamercolor[bg]{item projected}%
+    \vrule width2.25ex height1.85ex depth.4ex%
+    \hskip-2.25ex%
+    \hbox to2.25ex{%
+      \hfil%
+      {\color{fg}\insertenumlabel}%
+      \hfil}%
+  }%
+}}
+
+\setbeamertemplate{enumerate item}[square2]
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{caption}[numbered]
+\begin{document}
+
+\rightskip\rightmargin
+\title{An Introduction to Bayesian Inference and Applications}
+\author{ \Large \textbf{ Maisha Thasin, Vani Singh, Yiran Wang} }
+\institute{\large
+---------\\
+University of Waterloo}
+\footnotesize{\date{August 22, 2023 }
+
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}{Presentation Agenda}
+\footnotesize \tableofcontents
+\end{frame}
+
+\section{What is Bayesian Statistics?}
+\begin{frame}
+\large Bayesian Statistics:
+\begin{itemize}
+    \item Bayesian statistics is a probabilistic framework that combines \textbf{prior} knowledge or beliefs with \textbf{new evidence} to \textbf{update} our understanding of a problem. 
+    
+    \item It involves using \textbf{Bayes' Theorem} to calculate the \textbf{posterior} probability of a hypothesis given the observed data.
+   
+    \item Allows us to make more informed decisions and refine our understanding as \textbf{new information} becomes available.
+       
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\large Bayes' Theorem:
+$$P(A|B)=\frac{P(B|A) \times P(A)}{P(B)}$$\\
+$$P(\theta|data)=\frac{P(data|\theta)\times(P(\theta)}{P(data)}$$\\
+$$\therefore Posterior(\theta) \propto Lik(\theta) \times Prior(\theta)$$
+\end{frame}
+
+\section{Frequentist vs. Bayesian}
+\begin{frame}
+\large \textbf{Frequentist:} parameters are fixed but the values may be unknown. Relies on repeated sampling and probability distributions of sample statistics to make inferences about true parameter values.\\
+$$$$
+\large \textbf{Bayesian:} treats parameters as random variables with probability distributions that represent our uncertainty about their true values. Updates distributions using Bayes' Theorem. 
+\end{frame}
+
+\section{Article 1: Holes in Bayesian Statistics}
+\fontsize{11}{15}\selectfont
+    \begin{frame}
+    \begin{center}
+    \large \textbf{Holes in Bayesian Statistics}\\
+    \end{center}
+    \footnotesize
+      \textbf{Authors:} Andrew Gelman, Yuling Yao\\
+          \begin{itemize}
+              \item \textbf{Failure of Conditional Probability in the Quantum Realm:} In quantum physics, traditional rules of conditional probability don't apply due to quantum superposition. Unmeasured observations aren't equivalent to treating them as uncertain in joint distributions.
+              \item \textbf{Poor Inferences with Flat or Weak Priors:} Using uninformative or weak prior probabilities can lead to sub-optimal inferences, particularly for important variables or quantities of interest.
+               \item \textbf{Incoherence of Subjective Priors:} Personal belief-based subjective priors can sometimes be inconsistent with Bayesian inference principles, introducing issues of coherence.
+          \end{itemize}
+      \end{frame}  
+\begin{frame}
+    \begin{center}
+    \large \textbf{Holes in Bayesian Statistics}\\
+    \end{center}
+    \footnotesize
+      \textbf{Authors:} Andrew Gelman, Yuling Yao\\
+          \begin{itemize}
+              \item \textbf{Bayesian Decision Picking the Wrong Model:} Bayesian decision-making can erroneously choose an incorrect model, leading to flawed conclusions.
+              \item \textbf{Bayes Factors and Weak Priors:} Bayes factors, used to assess relative model support, might not perform well with flat or weak priors.
+              \item \textbf{Challenges with Model Checking and Coherence:} The process of model checking can disrupt Bayesian inference's coherence, particularly due to issues arising from infinite sets.
+          \end{itemize}
+      \end{frame}  
+
+\footnotesize
+
+\section{Article 2: Capture- Recapture Estimation via Gibbs Sampling}
+\begin{frame}
+    \begin{center}
+    \large \textbf{Capture- Recapture Estimation via Gibbs Sampling}\\ 
+    \end{center}
+    \footnotesize
+      \textbf{Author:} Edward I. George\\ \vspace{1.5mm}
+      The article introduces the capture-recapture methodology as an alternative approach to \textbf{estimating population size}. This method involves sampling the population multiple times and \textbf{identifying individuals that appear more than once.} \\ \vspace{1mm}
+       The paper aims to demonstrate how \textbf{Gibbs Sampling}, as a viable alternative to both analytical calculations and numerical approximations, can effectively support Bayesian computations for capture-recapture models. \\
+       \vspace{1mm}
+       \begin{block}{What is Gibbs Sampling?}
+       \begin{itemize}
+           \item Initial values assigned to all variables.
+           \item \textbf{Iterative process:} Each variable updated based on conditional distribution given current other variable values.
+           \item \textbf{Repetition over iterations:} Converges toward representative sample of desired joint distribution.
+           \item \textbf{Increasing iterations:} Samples progressively approximate true distribution.
+           \item Facilitates statistical inferences and estimation of quantities of interest.
+       \end{itemize}
+       \end{block}
+    \end{frame} 
+
+\begin{frame}
+    \begin{center}
+    \large \textbf{Capture- Recapture Estimation via Gibbs Sampling}\\ \vspace{1.5mm}
+    \footnotesize
+      \textbf{Homogeneous Catch Model}\\
+      \end{center}
+      The likelihood for this experiment can be obtained by: $$L(N,p|data) \propto \frac{N!}{(N-r)!} \prod^{I}_{i=1} p_{i}^{n_{i}}(1-p_{i})^{(N-n_{i})}$$
+      \begin{itemize}
+          \item unknown population size: $N$
+          \item $I$ samples of size $n_{1}, n_{2}, ... n_{I}$
+          \item total number of distinct captured individuals: $r$, $r=(\sum n_{i}) -m$
+          \item total number of times a recaptured individual is observed : $m$
+      \end{itemize}
+      This is combined with priors of the form $\pi(N,p) = \pi(N) \pi(p)$ so N and p are priori independent. \\ \vspace{1.5mm}
+      The article goes on to illustrate an example of how the Gibbs Sampler was used to compute estimates for the Gordy Lake Sunfish Data treated by Castledine (1981) and Smith (1988, 1991).
+    \end{frame} 
+    
+
+
+\section{Article 3: Objections to Bayesian Statistics}
+\begin{frame}
+    \begin{center}
+    \large \textbf{Objections to Bayesian Statistics}\\
+    \end{center}
+    \footnotesize
+      \textbf{Authors:} Andrew Gelman\\
+      \begin{block}{}
+      This article presents a series of objections to Bayesian inference, written
+in the voice of a hypothetical anti-Bayesian statistician. The article is intended to
+elicit elaborations and extensions of these and other arguments from non-Bayesians
+and responses from Bayesians who might have different perspectives on these issues
+       \end{block}
+          \begin{itemize}
+              \item \textbf{Automatic Inference Engine:} Bayesian methods claim automatic inference but may not work well universally.
+              \item \textbf{Subjective Bayesianism:} The subjective nature of prior and posterior distributions raises concerns about objective knowledge
+              \item \textbf{Shoddiness of Bayesian Analyses:} Bayesian analyses may seem poorly done, relying heavily on computation rather than inference principles.
+          \end{itemize}
+      \end{frame}  
+
+\begin{frame}
+A hypothetical anti-Bayesian raises objections:
+\begin{itemize}
+  \item Subjective priors lack transferability and objective basis.
+  \item Bayesian theory requires deep thought, unlike tried-and-true methods.
+  \item Common use of convenient conjugate priors raises suspicion.
+  \item Unbiasedness and confidence intervals are preferred; Bayesian reliance on strong assumptions is questioned.
+  \item Bayesian methods are based on unverifiable Markov chain Monte Carlo (MCMC) computations.
+  \item Bayesianism encourages biased thinking and unethical practices.
+  \item Bayesian decision theory undermines random sampling and optimal design principles.
+  \item Empirical Bayes and hierarchical methods may misuse data.
+  \item Bayesian magic of MCMC is criticized in favor of traditional statistics.
+\end{itemize}
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}
+        \begin{center}
+    \large \textbf{Conclusion}\\ 
+    \end{center}
+    \footnotesize
+    \begin{itemize}
+      \begin{block}{Conclusion}
+        \item Bayesian inference provides a powerful framework for combining prior beliefs with observed evidence to update our understanding of various problems.
+        \item Bayes' Theorem forms the foundation of Bayesian statistics, allowing us to calculate posterior probabilities.
+        \item We explored the differences between frequentist and Bayesian approaches, highlighting how Bayesian methods treat parameters as random variables.
+        
+       \end{block}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+\footnotesize
+      \begin{block}{Conclusion}
+        \item The articles discussed shed light on both the strengths and limitations of Bayesian statistics:
+        \begin{itemize}
+            \item The "Holes in Bayesian Statistics" article outlined various challenges in applying Bayesian methods, such as issues with quantum physics and model coherence.
+            \item The "Capture-Recapture Estimation via Gibbs Sampling" article demonstrated the practical use of Bayesian methods in estimating population size, showcasing the power of Gibbs Sampling.
+            \item The "Objections to Bayesian Statistics" article presented critiques from a skeptical perspective, encouraging a deeper exploration of Bayesian assumptions and practices.
+        \end{itemize}
+        
+    As statisticians, it's important to understand both the benefits and limitations of Bayesian methods, enabling us to make informed decisions and select appropriate techniques for various scenarios.
+    
+       \end{block}
+\end{itemize}
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+
