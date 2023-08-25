@@ -1,7 +1,7 @@
 Presentation notes 
 
 
-## Very incoherent, presentation notes, most of these notes will not make sense alone, so proceed with caution !
+## Very incoherent, presentation notes, most of these notes will not make sense standalone, so proceed with caution !
 
 
 
